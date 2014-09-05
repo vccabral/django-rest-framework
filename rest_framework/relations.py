@@ -38,9 +38,11 @@ class RelatedField(WritableField):
     empty_label = None
     read_only = True
     many = False
+    limit_choices_to = None
 
     def __init__(self, *args, **kwargs):
         queryset = kwargs.pop('queryset', None)
+        self.limit_choices_to = kwargs.pop('limit_choices_to', None)
         self.many = kwargs.pop('many', self.many)
         if self.many:
             self.widget = self.many_widget
@@ -53,6 +55,9 @@ class RelatedField(WritableField):
             # Accessed in ModelChoiceIterator django/forms/models.py:1034
             # If set adds empty choice.
             self.empty_label = BLANK_CHOICE_DASH[0][1]
+
+        if self.limit_choices_to:
+            queryset = queryset.filter(**self.limit_choices_to)
 
         self.queryset = queryset
 

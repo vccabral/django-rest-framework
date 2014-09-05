@@ -147,3 +147,40 @@ class RelatedFieldChoicesTests(TestCase):
         widget_count = len(field.widget.choices)
 
         self.assertEqual(widget_count, choice_count + 1, 'BLANK_CHOICE_DASH option should have been added')
+
+
+class RelatedFieldLimitChoicesTests(TestCase):
+    """
+    Tests for #1811 "Make related fields on ModelSerializer respect `limit_choices_to`"
+    https://github.com/tomchristie/django-rest-framework/issues/1811
+    """
+    def test_relation_serializer_limits_choices_if_provided(self):
+        post = BlogPost(title="Checking limit to works on related field")
+        post.save()
+
+        queryset = BlogPost.objects.all()
+
+        field = serializers.RelatedField(required=False, queryset=queryset, limit_choices_to={'pk': 0})
+
+        widget_count = len(field.widget.choices)
+        choice_count = 1
+
+        self.assertEqual(widget_count, choice_count, 'BLANK_CHOICE_DASH should always be the only option')
+
+    def test_relation_serializer_does_not_limit_choices_if_not_provided(self):
+        post = BlogPost(title="checking limit to works on single item")
+        post.save()
+
+        post2 = BlogPost(title="second blog entry")
+        post2.save()
+
+        queryset = BlogPost.objects.all()
+        first_blog = queryset[0]
+
+        choice_count = BlogPost.objects.count()
+        field = serializers.RelatedField(required=False, queryset=queryset, limit_choices_to={'pk': first_blog.pk})
+
+        widget_count = len(field.widget.choices)
+        choice_count = 2
+
+        self.assertEqual(widget_count, choice_count, 'BLANK_CHOICE_DASH plus our only blog entry')
