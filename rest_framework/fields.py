@@ -597,8 +597,8 @@ class URLField(CharField):
 class IntegerField(Field):
     default_error_messages = {
         'invalid': _('A valid integer is required.'),
-        'max_value': _('Ensure this value is less than or equal to %(limit_value)s.'),
-        'min_value': _('Ensure this value is greater than or equal to %(limit_value)s.'),
+        'max_value': _('Ensure this value is less than or equal to %(limit_value)d.'),
+        'min_value': _('Ensure this value is greater than or equal to %(limit_value)d.'),
         'max_string_length': _('String value too large')
     }
     MAX_STRING_LENGTH = 1000  # Guard against malicious string inputs.
@@ -631,8 +631,8 @@ class IntegerField(Field):
 class FloatField(Field):
     default_error_messages = {
         'invalid': _('A valid number is required.'),
-        'max_value': _('Ensure this value is less than or equal to %(limit_value)s.'),
-        'min_value': _('Ensure this value is greater than or equal to %(limit_value)s.'),
+        'max_value': _('Ensure this value is less than or equal to %(limit_value)d.'),
+        'min_value': _('Ensure this value is greater than or equal to %(limit_value)d.'),
         'max_string_length': _('String value too large')
     }
     MAX_STRING_LENGTH = 1000  # Guard against malicious string inputs.
@@ -666,19 +666,19 @@ class FloatField(Field):
 class DecimalField(Field):
     default_error_messages = {
         'invalid': _('A valid number is required.'),
-        'max_value': _('Ensure this value is less than or equal to %(limit_value)s.'),
-        'min_value': _('Ensure this value is greater than or equal to %(limit_value)s.'),
+        'max_value': _('Ensure this value is less than or equal to %(limit_value)d.'),
+        'min_value': _('Ensure this value is greater than or equal to %(limit_value)d.'),
         'max_digits': ungettext_lazy(
-            'Ensure that there are no more than %(max)s digit in total.',
-            'Ensure that there are no more than %(max)s digits in total.',
+            'Ensure that there are no more than %(max)d digit in total.',
+            'Ensure that there are no more than %(max)d digits in total.',
             'max'),
         'max_decimal_places': ungettext_lazy(
-            'Ensure that there are no more than %(max)s decimal place.',
-            'Ensure that there are no more than %(max)s decimal places.',
+            'Ensure that there are no more than %(max)d decimal place.',
+            'Ensure that there are no more than %(max)d decimal places.',
             'max'),
         'max_whole_digits': ungettext_lazy(
-            'Ensure that there are no more than %(max)s digit before the decimal point.',
-            'Ensure that there are no more than %(max)s digits before the decimal point.',
+            'Ensure that there are no more than %(max)d digit before the decimal point.',
+            'Ensure that there are no more than %(max)d digits before the decimal point.',
             'max'),
         'max_string_length': _('String value too large')
     }
